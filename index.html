@@ -1,1 +1,217 @@
-السلام علیکم برادر پیمنٹ کرو گے تو اگے اپ کے ویب سائٹ پہ کام کیا جائے گا ورنہ تو نہیں
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MS.Trading Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #0b182e;
+      color: white;
+    }
+    header {
+      background: #111;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+    nav {
+      text-align: center;
+      padding: 15px;
+    }
+    nav button {
+      background: #2a2a2a;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav button:hover {
+      background: #00bfff;
+    }
+    section {
+      display: none;
+      padding: 30px;
+      text-align: center;
+    }
+    section.active {
+      display: block;
+    }
+    h2 {
+      margin-bottom: 15px;
+      color: #00ff7f;
+    }
+    .plans {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .plan {
+      background: #1b2838;
+      padding: 20px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .plan h3 {
+      color: #00ff7f;
+    }
+    .plan p {
+      margin: 8px 0;
+    }
+    .plan button {
+      background: #00ff7f;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .plan button:hover {
+      background: #32cd32;
+    }
+    input, textarea {
+      padding: 10px;
+      width: 80%;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: none;
+    }
+    .copy-btn {
+      background: #00bfff;
+      border: none;
+      padding: 8px 15px;
+      margin-left: 5px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+    .note {
+      background: #ff4500;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      background: #111;
+      padding: 10px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>💹 MS.Trading Dashboard</header>
+
+<nav>
+  <button onclick="showSection('dashboard')">Dashboard</button>
+  <button onclick="showSection('deposit')">Deposit</button>
+  <button onclick="showSection('withdraw')">Withdraw</button>
+  <button onclick="showSection('history')">History</button>
+  <button onclick="showSection('referral')">Referral</button>
+</nav>
+
+<!-- Dashboard -->
+<section id="dashboard" class="active">
+  <h2>Available Plans</h2>
+  <div class="plans">
+    <div class="plan">
+      <h3>Plan 1</h3>
+      <p>Daily Profit: Rs 380</p>
+      <p>Total Profit: Rs 11,400</p>
+      <p>Price: Rs 60</p>
+      <p>Duration: 30 Days</p>
+      <button>Buy Now</button>
+    </div>
+    <div class="plan">
+      <h3>Plan 2</h3>
+      <p>Daily Profit: Rs 720</p>
+      <p>Total Profit: Rs 21,600</p>
+      <p>Price: Rs 130</p>
+      <p>Duration: 30 Days</p>
+      <button>Buy Now</button>
+    </div>
+    <div class="plan">
+      <h3>Plan 3</h3>
+      <p>Daily Profit: Rs 1240</p>
+      <p>Total Profit: Rs 37,200</p>
+      <p>Price: Rs 310</p>
+      <p>Duration: 30 Days</p>
+      <button>Buy Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- Deposit -->
+<section id="deposit">
+  <h2>Deposit</h2>
+  <p>Send your deposit to Easypaisa Number:</p>
+  <p><b id="easypaisa">03706502150</b>
+    <button class="copy-btn" onclick="copyNumber()">Copy</button>
+  </p>
+  <p>After payment, paste your Transaction ID below:</p>
+  <input type="text" placeholder="Enter Transaction ID">
+  <br>
+  <button>Submit</button>
+
+  <div class="note">
+    ⚠️ Deposit Note: Fast Deposit پر 5% کمیشن کٹ جائے گا۔
+  </div>
+</section>
+
+<!-- Withdraw -->
+<section id="withdraw">
+  <h2>Withdraw</h2>
+  <input type="text" placeholder="Enter Easypaisa/JazzCash Number"><br>
+  <input type="number" placeholder="Enter Amount"><br>
+  <button>Withdraw</button>
+</section>
+
+<!-- History -->
+<section id="history">
+  <h2>Transaction History</h2>
+  <p>No records yet.</p>
+</section>
+
+<!-- Referral -->
+<section id="referral">
+  <h2>Referral Program</h2>
+  <p>Invite your friends and earn rewards!</p>
+  <div class="note">
+    💰 Referral Note: ہر ریفرل پر 10% کمیشن ملے گا۔
+  </div>
+  <a href="https://chat.whatsapp.com/G75nNKaBXfp2vm7sl0lkiR?mode=ems_copy_c" target="_blank">
+    <button>Join WhatsApp Group</button>
+  </a>
+</section>
+
+<footer>
+  © 2025 MS.Trading. All Rights Reserved. | Malik Waliullah
+</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  function copyNumber() {
+    let num = document.getElementById("easypaisa").innerText;
+    navigator.clipboard.writeText(num);
+    alert("Easypaisa number copied: " + num);
+  }
+</script>
+
+</body>
+</html>
