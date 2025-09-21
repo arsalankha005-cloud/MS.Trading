@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MS.Trading Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #ff7f50, #87ceeb, #90ee90, #dda0dd);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: #333;
+      text-align: center;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header {
+      background: #222;
+      padding: 20px;
+      color: white;
+      font-size: 22px;
+    }
+    nav {
+      background: #444;
+      padding: 12px;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover { color: yellow; }
+    .page { display: none; padding: 30px; }
+    .active { display: block; }
+    .stats, .plans {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      width: 250px;
+      transition: 0.3s;
+    }
+    .card:hover { transform: scale(1.05); }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover { background: #0056b3; }
+    .green { color: green; font-weight: bold; }
+    .blue { color: blue; font-weight: bold; }
+    .red { color: red; font-weight: bold; }
+    .orange { color: orange; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<header>💹 MS.Trading Website</header>
+
+<nav>
+  <a href="#" onclick="showPage('home')">Home</a>
+  <a href="#" onclick="showPage('deposit')">Deposit</a>
+  <a href="#" onclick="showPage('withdraw')">Withdraw</a>
+  <a href="#" onclick="showPage('plans')">Buy Plan</a>
+</nav>
+
+<!-- Home Page -->
+<div id="home" class="page active">
+  <h2>User Dashboard</h2>
+  <div class="stats">
+    <div class="card">Total Deposit <p id="depositVal" class="orange">0 Rs</p></div>
+    <div class="card">Total Withdraw <p id="withdrawVal" class="red">0 Rs</p></div>
+    <div class="card">Total Profit <p id="profitVal" class="blue">0 Rs</p></div>
+    <div class="card">Current Balance <p id="balanceVal" class="green">0 Rs</p></div>
+  </div>
+</div>
+
+<!-- Deposit Page -->
+<div id="deposit" class="page">
+  <h2>Deposit</h2>
+  <input type="text" id="trxId" placeholder="Enter Transaction ID">
+  <input type="number" id="depositAmount" placeholder="Enter Amount">
+  <button onclick="makeDeposit()">Submit</button>
+  <p id="depositMsg"></p>
+</div>
+
+<!-- Withdraw Page -->
+<div id="withdraw" class="page">
+  <h2>Withdraw</h2>
+  <input type="number" id="withdrawAmount" placeholder="Enter Amount">
+  <button onclick="makeWithdraw()">Withdraw</button>
+  <p id="withdrawMsg"></p>
+</div>
+
+<!-- Plans Page -->
+<div id="plans" class="page">
+  <h2>Buy a Plan</h2>
+  <div class="plans">
+    <div class="card">
+      <h3>Plan 380</h3>
+      <p>Daily Profit: 60</p>
+      <button onclick="buyPlan(380,60)">Buy Now</button>
+    </div>
+    <div class="card">
+      <h3>Plan 720</h3>
+      <p>Daily Profit: 130</p>
+      <button onclick="buyPlan(720,130)">Buy Now</button>
+    </div>
+    <div class="card">
+      <h3>Plan 1240</h3>
+      <p>Daily Profit: 310</p>
+      <button onclick="buyPlan(1240,310)">Buy Now</button>
+    </div>
+  </div>
+  <p id="planMsg"></p>
+</div>
+
+<script>
+  // User Data
+  let balance = 0, deposit = 0, withdraw = 0, profit = 0;
+
+  function updateDashboard() {
+    document.getElementById("depositVal").innerText = deposit + " Rs";
+    document.getElementById("withdrawVal").innerText = withdraw + " Rs";
+    document.getElementById("profitVal").innerText = profit + " Rs";
+    document.getElementById("balanceVal").innerText = balance + " Rs";
+  }
+
+  function showPage(page) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById(page).classList.add("active");
+  }
+
+  function makeDeposit() {
+    let trx = document.getElementById("trxId").value;
+    let amt = parseInt(document.getElementById("depositAmount").value);
+    if(trx === "" || isNaN(amt) || amt <= 0) {
+      document.getElementById("depositMsg").innerText = "⚠️ Please enter valid details!";
+    } else {
+      balance += amt;
+      deposit += amt;
+      document.getElementById("depositMsg").innerText = "✅ Deposit Successful!";
+      updateDashboard();
+    }
+  }
+
+  function makeWithdraw() {
+    let amt = parseInt(document.getElementById("withdrawAmount").value);
+    if(isNaN(amt) || amt <= 0) {
+      document.getElementById("withdrawMsg").innerText = "⚠️ Invalid Amount!";
+    } else if(amt > balance) {
+      document.getElementById("withdrawMsg").innerText = "❌ Not enough balance!";
+    } else {
+      balance -= amt;
+      withdraw += amt;
+      document.getElementById("withdrawMsg").innerText = "✅ Withdraw Successful!";
+      updateDashboard();
+    }
+  }
+
+  function buyPlan(price, dailyProfit) {
+    if(balance >= price) {
+      balance -= price;
+      profit += dailyProfit;
+      document.getElementById("planMsg").innerText = "✅ Plan purchased successfully! Daily Profit added.";
+      updateDashboard();
+    } else {
+      document.getElementById("planMsg").innerText = "❌ Not enough balance to buy this plan!";
+    }
+  }
+
+  updateDashboard();
+</script>
+
+</body>
+</html>
